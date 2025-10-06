@@ -96,6 +96,26 @@ const calcDisplayBalance = function (movements) {
 };
 calcDisplayBalance(account1.movements);
 
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes} Euro`;
+
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)} Euro`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter((int, i, arr) => int >= 1)
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest} Euro`;
+};
+calcDisplaySummary(account1.movements);
+
 // const user = 'Steven Thomas Williams'; //username: swt
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -201,10 +221,19 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 //Maximum value
 
-const max = movements.reduce((acc, mov) => {
-  if (acc > mov) {
-    return acc;
-  } else {
-    return mov;
-  }
-}, movements[0]);
+// const max = movements.reduce((acc, mov) => {
+//   if (acc > mov) {
+//     return acc;
+//   } else {
+//     return mov;
+//   }
+// }, movements[0]);
+
+// const totalDepositsUSD = movements
+//   .filter(mov => mov > 0)
+//   .map(mov => mov * 1.1)
+//   .reduce((acc, mov) => acc + mov, 0);
+
+// const firstWithdrawal = movements.find(mov => mov < 0);
+
+// const account = accounts.find(acc => acc.owner === 'Jessica Davis');
